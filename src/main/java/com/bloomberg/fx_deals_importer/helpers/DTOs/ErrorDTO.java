@@ -1,4 +1,4 @@
-package com.bloomberg.fx_deals_importer.shared.DTOs;
+package com.bloomberg.fx_deals_importer.helpers.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
