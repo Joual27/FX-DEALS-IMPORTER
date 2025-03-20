@@ -19,6 +19,6 @@ public class Deal {
     private String id ;
     private Currency fromCurrency ;
     private Currency toCurrency;
-    private LocalDateTime dealTimeStamp ;
+    private LocalDateTime madeAt ;
     private double amount ;
 }

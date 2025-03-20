@@ -1,4 +1,6 @@
 package com.bloomberg.fx_deals_importer.DTOs;
 
-public record ImportDealDTO() {
+import java.util.Currency;
+
+public record ImportDealDTO(String id , Currency fromCurrency , Currency toCurrency , double amount ) {
 }
