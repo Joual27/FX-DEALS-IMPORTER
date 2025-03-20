@@ -1,35 +1,29 @@
 package com.bloomberg.fx_deals_importer.config;
 
 
-import com.bloomberg.fx_deals_importer.helpers.DTOs.ErrorDTO;
+import com.bloomberg.fx_deals_importer.exceptions.BatchProcessingException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BindException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDTO handleBindException(BindException e) {
-        Map<String, String> validationErrors = new HashMap<>();
-        e.getBindingResult().getFieldErrors().forEach(error ->
-                validationErrors.put(error.getField(), error.getDefaultMessage())
-        );
-        e.getBindingResult().getGlobalErrors().forEach(error ->
-                validationErrors.put(error.getObjectName(), error.getDefaultMessage())
-        );
-        return new ErrorDTO(
-                HttpStatus.BAD_REQUEST.value(),
-                "Validation Errors",
-                validationErrors,
-                LocalDateTime.now()
-        );
+    @ExceptionHandler(BatchProcessingException.class)
+    @ResponseStatus(HttpStatus.MULTI_STATUS)
+    public ResponseEntity<Map<String, Object>> handleBatchProcessingException(BatchProcessingException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", ex.getMessage());
+        response.put("successfulDeals", ex.getSuccesses());
+        response.put("errors", ex.getErrors());
+
+        return ResponseEntity.status(HttpStatus.MULTI_STATUS).body(response);
     }
 }

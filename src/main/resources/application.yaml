@@ -3,6 +3,12 @@ spring:
     name: "FX DEALS IMPORTER"
   datasource:
     driver-class-name: org.postgresql.Driver
+    url: ${APP_DATASOURCE_URL:jdbc:postgresql://db:5432/fx_deals_db}
+    username: ${DB_AUTH_USERNAME:postgres}
+    password: ${DB_AUTH_PASSWORD:Fasha321@}
   jpa:
     hibernate:
       ddl-auto: update
+logging:
+  level:
+    org.springframework.web : trace

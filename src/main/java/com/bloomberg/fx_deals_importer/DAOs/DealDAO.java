@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DealDAO extends CrudRepository<Deal, Long> {
+public interface DealDAO extends CrudRepository<Deal, String> {
 }
