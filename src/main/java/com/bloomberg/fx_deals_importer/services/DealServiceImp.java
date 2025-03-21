@@ -34,6 +34,7 @@ public class DealServiceImp implements DealService {
     public List<DealResponseDTO> createDeals(List<CreateDealDTO> data) {
         List<DealResponseDTO> successes = new ArrayList<>();
         List<String> errors = new ArrayList<>();
+        logger.info("Starting To Process {} Deals", data.size());
         for (CreateDealDTO dto : data) {
             try {
                 validateRequestDTO(dto);
@@ -42,7 +43,7 @@ public class DealServiceImp implements DealService {
                 Deal deal = dealMapper.toEntity(dto);
                 deal.setMadeAt(LocalDateTime.now());
                 successes.add(dealMapper.toResponseDTO(dealDAO.save(deal)));
-
+                logger.info("Deal {} Imported Succesfully !: {}", dto.id(), responseDTO);
             }catch (ValidationException e){
                 logger.error("Validation Errors for deal {} : {}", dto.id() , e.getMessage());
                 errors.add(e.getMessage());
@@ -52,9 +53,9 @@ public class DealServiceImp implements DealService {
                 errors.add(e.getMessage());
             }
         }
-
         if (!errors.isEmpty()){
             throw new BatchProcessingException("some deals couldn't be processed !" , successes , errors);
+            logger.info(" {} Deals Were Imported Successfully" , data.size() - errors.size());
         }
         return successes;
     }
