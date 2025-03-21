@@ -85,3 +85,26 @@ Docker Compose is used to orchestrate the deployment of two services:
 
 - PostgreSQL Database: Runs on port 5432.
 
+Makefile Commands
+
+The Makefile provides shortcuts for common tasks like starting, stopping, and testing the application. Here are the available commands:
+
+Commands :
+
+    make up:
+
+        Starts the application and database in detached mode (background).
+
+        make up
+
+    make down:
+
+        Stops and removes the application and database containers.
+
+        make down
+
+    make test:
+
+        Runs the unit tests .
+
+        make test
