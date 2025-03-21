@@ -43,7 +43,12 @@ public class DealServiceImp implements DealService {
                 deal.setMadeAt(LocalDateTime.now());
                 successes.add(dealMapper.toResponseDTO(dealDAO.save(deal)));
 
-            } catch (ValidationException | AlreadyExistsException | CurrencyException e) {
+            }catch (ValidationException e){
+                logger.error("Validation Errors for deal {} : {}", dto.id() , e.getMessage());
+                errors.add(e.getMessage());
+            }
+            catch (AlreadyExistsException | CurrencyException | IllegalArgumentException e){
+                logger.error("Error processing deal {} : {}", dto.id() , e.getMessage());
                 errors.add(e.getMessage());
             }
         }

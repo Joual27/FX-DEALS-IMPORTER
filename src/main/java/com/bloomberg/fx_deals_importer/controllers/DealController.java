@@ -17,7 +17,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/deals")
+@RequestMapping("/api/v1/deals")
 public class DealController {
     private final DealService dealService;
 
