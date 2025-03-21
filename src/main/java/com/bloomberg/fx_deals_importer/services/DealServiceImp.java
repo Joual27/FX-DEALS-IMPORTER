@@ -43,7 +43,7 @@ public class DealServiceImp implements DealService {
                 Deal deal = dealMapper.toEntity(dto);
                 deal.setMadeAt(LocalDateTime.now());
                 successes.add(dealMapper.toResponseDTO(dealDAO.save(deal)));
-                logger.info("Deal {} Imported Succesfully !: {}", dto.id(), responseDTO);
+                logger.info("Deal {} Imported Succesfully !", dto.id());
             }catch (ValidationException e){
                 logger.error("Validation Errors for deal {} : {}", dto.id() , e.getMessage());
                 errors.add(e.getMessage());
@@ -54,8 +54,8 @@ public class DealServiceImp implements DealService {
             }
         }
         if (!errors.isEmpty()){
-            throw new BatchProcessingException("some deals couldn't be processed !" , successes , errors);
             logger.info(" {} Deals Were Imported Successfully" , data.size() - errors.size());
+            throw new BatchProcessingException("some deals couldn't be processed !" , successes , errors);
         }
         return successes;
     }
